@@ -1,6 +1,7 @@
 package xyz.vicnetto.amio_project.sensor;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -18,7 +19,7 @@ import xyz.vicnetto.amio_project.ui.MainView;
 
 public class SensorRequest {
 
-    private MainActivity mainActivity;
+    private final MainActivity mainActivity;
 
     public static final String BASE_URL = "http://iotlab.telecomnancy.eu:8080/iotlab/rest/data/1/light1/last";
 
@@ -48,6 +49,8 @@ public class SensorRequest {
         // After the call specification, it will make the call.
         Call call = client.newCall(request);
 
+        Toast.makeText(mainActivity, "Request sent!", Toast.LENGTH_SHORT).show();
+
         call.enqueue(new Callback() {
             public void onResponse(@NonNull Call call, @NonNull Response response)
                     throws IOException {
@@ -66,9 +69,14 @@ public class SensorRequest {
             }
 
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                // Failure on the process.
-                // TODO: toast with error message.
-                Log.d("MainActivity", "Failure!");
+                // Failure on the process, informing the user using Toast.
+                mainActivity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(mainActivity,
+                                "Request failed! Are you connected to TN EDUROAM or VPN?"
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
