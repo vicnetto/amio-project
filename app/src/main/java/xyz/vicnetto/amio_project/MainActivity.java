@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import java.util.TimerTask;
 
 import xyz.vicnetto.amio_project.mail.MailTool;
 import xyz.vicnetto.amio_project.sensor.SensorRequest;
+import xyz.vicnetto.amio_project.setting.SettingsActivity;
 import xyz.vicnetto.amio_project.ui.MainView;
 import xyz.vicnetto.amio_project.ui.SensorView;
 
@@ -37,14 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Associate button with sensor update.
         mainView.configureUpdateButton(new SensorRequest(this));
+        // Associate button with setting activity.
+        associateConfigurationButton();
 
         // Load main service
         Intent mainService = new Intent(this, MainService.class);
         startService(mainService);
 
-        //getSupportFragmentManager().beginTransaction()
-        //.replace(R.id.setting_container, new SettingsFragment())
-        //        .commit();
 
         // Send mail service
         //sendMail(" "," ");
@@ -67,6 +68,19 @@ public class MainActivity extends AppCompatActivity {
         Button configuration = findViewById(R.id.configuration);
 
         mainView = new MainView(sensors, time, update, configuration);
+    }
+
+    /**
+     * Associate the configuration button with setting activities
+     */
+    private void associateConfigurationButton(){
+        this.mainView.getConfiguration().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
