@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,8 @@ import com.google.android.material.imageview.ShapeableImageView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import xyz.vicnetto.amio_project.sensor.SensorRequest;
 import xyz.vicnetto.amio_project.ui.MainView;
@@ -32,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Associate button with sensor update.
         mainView.configureUpdateButton(new SensorRequest(this));
+
+        // Load main service
+        Intent mainService = new Intent(this, MainService.class);
+        startService(mainService);
     }
 
     /**
