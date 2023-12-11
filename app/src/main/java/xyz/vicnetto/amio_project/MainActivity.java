@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import xyz.vicnetto.amio_project.mail.MailTool;
 import xyz.vicnetto.amio_project.sensor.SensorRequest;
 import xyz.vicnetto.amio_project.ui.MainView;
 import xyz.vicnetto.amio_project.ui.SensorView;
@@ -43,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
         //getSupportFragmentManager().beginTransaction()
         //.replace(R.id.setting_container, new SettingsFragment())
         //        .commit();
+
+        // Send mail service
+        //sendMail(" "," ");
+
     }
 
     /**
@@ -61,5 +67,23 @@ public class MainActivity extends AppCompatActivity {
         Button configuration = findViewById(R.id.configuration);
 
         mainView = new MainView(sensors, time, update, configuration);
+    }
+
+    /**
+     * This function allow us to send a mail with two given address TODO: compete this function and associate with a button
+     * @param addrDst the e-mail address that we want to send to
+     * @param addrCC the e-mail address that we want to add to CC
+     */
+    private void sendMail(String addrDst, String addrCC){
+        MailTool mailTool = new MailTool();
+        Intent mailService = mailTool.sendMailIntent(addrDst,addrCC);
+
+        try {
+            startActivity(Intent.createChooser(mailService, "Send mail..."));
+            finish();
+            Log.i("Mail service", "Finished sending email...");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
