@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         // Load main service
         Intent mainService = new Intent(this, MainService.class);
         startService(mainService);
+
+        //getSupportFragmentManager().beginTransaction()
+        //.replace(R.id.setting_container, new SettingsFragment())
+        //        .commit();
     }
 
     /**
