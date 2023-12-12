@@ -47,6 +47,9 @@ android {
 }
 
 dependencies {
+    implementation files('libs/mail.jar')
+    implementation files('libs/activation.jar')
+    implementation files('libs/additionnal.jar')
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.16.0'
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.12.0'
     implementation 'com.google.android.material:material:1.10.0'
