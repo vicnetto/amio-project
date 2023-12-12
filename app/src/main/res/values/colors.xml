@@ -12,6 +12,7 @@
     <color name="dark_grey">#262626</color>
     <color name="light_grey">#D3D3D3</color>
     <color name="dark_green">#31771B</color>
+    <color name="red">#CC0000</color>
 
     <color name="led_on">#31771B</color>
     <color name="led_off">#262626</color>
