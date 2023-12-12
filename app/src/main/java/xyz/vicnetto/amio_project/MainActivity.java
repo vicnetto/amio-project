@@ -1,33 +1,30 @@
 package xyz.vicnetto.amio_project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.imageview.ShapeableImageView;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import xyz.vicnetto.amio_project.mail.MailTool;
-import xyz.vicnetto.amio_project.sensor.SensorRequest;
+import xyz.vicnetto.amio_project.notification.NotificationService;
 import xyz.vicnetto.amio_project.setting.SettingsActivity;
 import xyz.vicnetto.amio_project.ui.MainView;
 import xyz.vicnetto.amio_project.ui.SensorView;
 
 public class MainActivity extends AppCompatActivity {
-
-    private MainView mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +35,17 @@ public class MainActivity extends AppCompatActivity {
         loadViewElements();
 
         // Associate button with sensor update.
-        mainView.configureUpdateButton(new SensorRequest(this));
+        MainView.getInstance().configureUpdateButton();
+
         // Associate button with setting activity.
         associateConfigurationButton();
 
-        // Load main service
-        Intent mainService = new Intent(this, MainService.class);
-        startService(mainService);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkNotificationPermissions();
+        }
 
-
-        // Send mail service
-        //sendMail(" "," ");
-
+        Intent intent = new Intent(this, NotificationService.class);
+        super.startService(intent);
     }
 
     /**
@@ -61,20 +57,39 @@ public class MainActivity extends AppCompatActivity {
         sensors.add(new SensorView(findViewById(R.id.name_2), findViewById(R.id.led_2), findViewById(R.id.value_2)));
         sensors.add(new SensorView(findViewById(R.id.name_3), findViewById(R.id.led_3), findViewById(R.id.value_3)));
         sensors.add(new SensorView(findViewById(R.id.name_4), findViewById(R.id.led_4), findViewById(R.id.value_4)));
+        MainView.getInstance().setSensorShow(sensors);
 
         TextView time = findViewById(R.id.time);
+        MainView.getInstance().setTime(time);
 
         Button update = findViewById(R.id.update);
-        Button configuration = findViewById(R.id.configuration);
+        MainView.getInstance().setUpdate(update);
 
-        mainView = new MainView(sensors, time, update, configuration);
+        Button configuration = findViewById(R.id.configuration);
+        MainView.getInstance().setConfiguration(configuration);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    private void checkNotificationPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Random number, just to verify if the result was good.
+            int requestCode = 1;
+            boolean isPostPermitted = ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.POST_NOTIFICATIONS);
+
+            if (!isPostPermitted) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+            }
+        }
     }
 
     /**
      * Associate the configuration button with setting activities
      */
     private void associateConfigurationButton(){
-        this.mainView.getConfiguration().setOnClickListener(new View.OnClickListener() {
+        MainView.getInstance().getConfiguration().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
