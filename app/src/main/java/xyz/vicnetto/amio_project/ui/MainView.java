@@ -1,5 +1,7 @@
 package xyz.vicnetto.amio_project.ui;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -8,13 +10,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import xyz.vicnetto.amio_project.R;
-import xyz.vicnetto.amio_project.sensor.JSONSensorData;
+import xyz.vicnetto.amio_project.sensor.SensorDataHolder;
 import xyz.vicnetto.amio_project.sensor.SensorRequest;
 
 public class MainView {
 
     private static final int QUANTITY_OF_SENSORS = 4;
     private static final int SENSOR_THRESHOLD = 250;
+    private static final int BUTTON_DEACTIVATION_TIME_IN_SECONDS = 5;
 
     private List<SensorView> sensorView;
 
@@ -24,30 +27,39 @@ public class MainView {
 
     private Button configuration;
 
-    public MainView(List<SensorView> sensorView, TextView time, Button update, Button configuration) {
-        this.sensorView = sensorView;
-        this.time = time;
-        this.update = update;
-        this.configuration = configuration;
+    @SuppressLint("StaticFieldLeak")
+    private static final MainView MAIN_VIEW = new MainView();
+
+    // Get singleton with all MainView information.
+    public static MainView getInstance() {
+        return MAIN_VIEW;
     }
 
     /**
-     * Associate the function to print all sensor information to the update button.
-     *
-     * @param sensorRequest -> Class that contains the function to make the request and print information.
+     * Make the configuration of the Update button. This button will call a function to make a request
+     * and update the UI. Also, the button will be deactivated during a certain time to avoid spam.
      */
-    public void configureUpdateButton(SensorRequest sensorRequest) {
-        update.setOnClickListener(view -> sensorRequest.printSensorInformation(this));
+    public void configureUpdateButton() {
+        // When button is clicked, disable to button (to avoid spam) and make a request.
+        update.setOnClickListener((view) -> {
+            update.setEnabled(false);
+            SensorRequest.getAndUpdateSensorInformation();
+
+            // After BUTTON_DEACTIVATION_TIME_IN_SECONDS, the button should be able to be clicked again.
+            new Handler().postDelayed(() -> {
+                update.setEnabled(true);
+            },BUTTON_DEACTIVATION_TIME_IN_SECONDS * 1000);
+        });
     }
 
     /**
      * Update the UI according to data.
      *
-     * @param JSONSensorData -> JSON returned from the request.
+     * @param SensorDataHolder -> JSON returned from the request.
      */
-    public void updateViewAccordingToData(JSONSensorData JSONSensorData) {
+    public void updateViewAccordingToData(SensorDataHolder SensorDataHolder) {
         for (int i = 0; i < QUANTITY_OF_SENSORS; i++) {
-            xyz.vicnetto.amio_project.sensor.JSONSensorData.JSONSensor currentSensorInformation = JSONSensorData.data.get(i);
+            xyz.vicnetto.amio_project.sensor.SensorDataHolder.SensorInformation currentSensorInformation = SensorDataHolder.data.get(i);
             SensorView currentSensorView = sensorView.get(i);
 
             // Update the name of the sensor.
@@ -68,36 +80,23 @@ public class MainView {
         time.setText(formatter.format(LocalDateTime.now()));
     }
 
-    public List<SensorView> getSensorShow() {
-        return sensorView;
-    }
-
     public void setSensorShow(List<SensorView> sensorView) {
         this.sensorView = sensorView;
-    }
-
-    public TextView getTime() {
-        return time;
     }
 
     public void setTime(TextView time) {
         this.time = time;
     }
 
-    public Button getUpdate() {
-        return update;
-    }
-
     public void setUpdate(Button update) {
         this.update = update;
-    }
-
-    public Button getConfiguration() {
-        return configuration;
     }
 
     public void setConfiguration(Button configuration) {
         this.configuration = configuration;
     }
 
+    public Button getConfiguration() {
+        return configuration;
+    }
 }

@@ -6,11 +6,11 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 public class SensorView {
 
-    private TextView name;
+    private final TextView name;
 
-    private ShapeableImageView led;
+    private final ShapeableImageView led;
 
-    private TextView value;
+    private final TextView value;
 
     public SensorView(TextView name, ShapeableImageView led, TextView value) {
         this.name = name;
@@ -22,23 +22,11 @@ public class SensorView {
         return name;
     }
 
-    public void setName(TextView name) {
-        this.name = name;
-    }
-
     public ShapeableImageView getLed() {
         return led;
     }
 
-    public void setLed(ShapeableImageView led) {
-        this.led = led;
-    }
-
     public TextView getValue() {
         return value;
-    }
-
-    public void setValue(TextView value) {
-        this.value = value;
     }
 }
