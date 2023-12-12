@@ -9,15 +9,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import xyz.vicnetto.amio_project.GlobalConstant;
 import xyz.vicnetto.amio_project.R;
 import xyz.vicnetto.amio_project.sensor.SensorDataHolder;
 import xyz.vicnetto.amio_project.sensor.SensorRequest;
 
 public class MainView {
 
-    private static final int QUANTITY_OF_SENSORS = 4;
-    private static final int SENSOR_THRESHOLD = 250;
-    private static final int BUTTON_DEACTIVATION_TIME_IN_SECONDS = 5;
 
     private List<SensorView> sensorView;
 
@@ -48,7 +46,7 @@ public class MainView {
             // After BUTTON_DEACTIVATION_TIME_IN_SECONDS, the button should be able to be clicked again.
             new Handler().postDelayed(() -> {
                 update.setEnabled(true);
-            },BUTTON_DEACTIVATION_TIME_IN_SECONDS * 1000);
+            }, GlobalConstant.BUTTON_DEACTIVATION_TIME_IN_SECONDS * 1000);
         });
     }
 
@@ -58,7 +56,7 @@ public class MainView {
      * @param SensorDataHolder -> JSON returned from the request.
      */
     public void updateViewAccordingToData(SensorDataHolder SensorDataHolder) {
-        for (int i = 0; i < QUANTITY_OF_SENSORS; i++) {
+        for (int i = 0; i < GlobalConstant.QUANTITY_OF_SENSORS; i++) {
             xyz.vicnetto.amio_project.sensor.SensorDataHolder.SensorInformation currentSensorInformation = SensorDataHolder.data.get(i);
             SensorView currentSensorView = sensorView.get(i);
 
@@ -66,7 +64,7 @@ public class MainView {
             currentSensorView.getName().setText(String.valueOf(currentSensorInformation.mote));
 
             // In case the sensor value is more than a specific threshold, led is on.
-            if (currentSensorInformation.value > SENSOR_THRESHOLD)
+            if (currentSensorInformation.value > GlobalConstant.SENSOR_THRESHOLD)
                 currentSensorView.getLed().setImageResource(R.color.led_on);
             else
                 currentSensorView.getLed().setImageResource(R.color.led_off);

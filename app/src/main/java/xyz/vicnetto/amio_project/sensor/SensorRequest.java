@@ -11,11 +11,10 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import xyz.vicnetto.amio_project.GlobalConstant;
 import xyz.vicnetto.amio_project.ui.MainView;
 
 public class SensorRequest {
-
-    public static final String BASE_URL = "http://iotlab.telecomnancy.eu:8080/iotlab/rest/data/1/light1/last";
 
     /**
      * To get the sensor information, we should call this static function. To treat the result:
@@ -23,9 +22,9 @@ public class SensorRequest {
      * In this case, we will have two functions inside the Callback. On is in case of success and the
      * other one in case it fails.
      */
-    private static Call getSensorInformation() {
+    public static Call getSensorInformation() {
         Request request = new Request.Builder()
-                .url(BASE_URL)
+                .url(GlobalConstant.BASE_URL)
                 .build();
 
         return new OkHttpClient().newCall(request);
@@ -61,7 +60,7 @@ public class SensorRequest {
      * @param response -> The JSON response from the request.
      * @throws IOException -> ObjectMapper requests a IOException.
      */
-    private static void treatJSONResponseAndUpdateUI(Response response) throws IOException {
+    public static void treatJSONResponseAndUpdateUI(Response response) throws IOException {
         // If response body is not null, it will map the JSON to a class.
         ObjectMapper objectMapper = new ObjectMapper();
         SensorDataHolder sensorDataHolder = objectMapper.readValue(response.body().string(), SensorDataHolder.class);
