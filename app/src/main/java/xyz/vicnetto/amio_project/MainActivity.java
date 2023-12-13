@@ -4,22 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.imageview.ShapeableImageView;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import xyz.vicnetto.amio_project.mail.MailTool;
+import xyz.vicnetto.amio_project.mail.JavaMailAPI;
 import xyz.vicnetto.amio_project.sensor.SensorRequest;
 import xyz.vicnetto.amio_project.setting.SettingsActivity;
 import xyz.vicnetto.amio_project.ui.MainView;
@@ -48,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Send mail service
-        //sendMail(" "," ");
+        sendMail("wenjiatang00@gmail.com"," ");
 
     }
 
@@ -89,15 +82,11 @@ public class MainActivity extends AppCompatActivity {
      * @param addrCC the e-mail address that we want to add to CC
      */
     private void sendMail(String addrDst, String addrCC){
-        MailTool mailTool = new MailTool();
-        Intent mailService = mailTool.sendMailIntent(addrDst,addrCC);
 
-        try {
-            startActivity(Intent.createChooser(mailService, "Send mail..."));
-            finish();
-            Log.i("Mail service", "Finished sending email...");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
-        }
+        JavaMailAPI javaMailAPI = new JavaMailAPI(this, "wenjiatang00@gmail.com", "test", "testttttttt");
+
+        javaMailAPI.execute();
+        Log.d("mail2","send mail....2");
+
     }
 }
