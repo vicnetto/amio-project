@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Send mail service
-        sendMail("wenjiatang00@gmail.com"," ");
+        sendMail("armand.bouveron@telecomnancy.net");
 
     }
 
@@ -79,11 +79,10 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This function allow us to send a mail with two given address TODO: compete this function and associate with a button
      * @param addrDst the e-mail address that we want to send to
-     * @param addrCC the e-mail address that we want to add to CC
      */
-    private void sendMail(String addrDst, String addrCC){
+    private void sendMail(String addrDst){
 
-        JavaMailAPI javaMailAPI = new JavaMailAPI(this, "wenjiatang00@gmail.com", "test", "testttttttt");
+        JavaMailAPI javaMailAPI = new JavaMailAPI(this, addrDst , "test", "testttttttt");
 
         javaMailAPI.execute();
         Log.d("mail2","send mail....2");

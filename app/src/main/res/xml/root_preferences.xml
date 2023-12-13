@@ -4,61 +4,59 @@
 
         <EditTextPreference
             app:key="addressMail"
-            app:title="Adresse email à envoyer"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="23h-6h"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="Plages horaires"
+            app:title="Adresse e-mail du destinataire"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Envoie des notifications">
+    <PreferenceCategory app:title="Plages horaires dans la semaine">
 
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
+        <ListPreference
+            app:defaultValue="19h"
+            app:entries="@array/start_time"
+            app:entryValues="@array/start_time_value"
+            app:key="start_time_s"
+            app:title="Début"
+            app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+        <ListPreference
+            app:defaultValue="23h"
+            app:entries="@array/end_time"
+            app:entryValues="@array/end_time_value"
+            app:key="end_time_s"
+            app:title="Fin"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Plages horaires en weekend">
+
+        <ListPreference
+            app:defaultValue="19h"
+            app:entries="@array/start_time"
+            app:entryValues="@array/start_time_value"
+            app:key="start_time_w"
+            app:title="Début"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="23h"
+            app:entries="@array/end_time"
+            app:entryValues="@array/end_time_value"
+            app:key="end_time_w"
+            app:title="Fin"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/messages_header">
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+            app:key="message"
+            app:title="Message à envoyer"
             app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
 
-    </PreferenceCategory>
-    <PreferenceCategory app:title="@string/sync_header">
 
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
 
     </PreferenceCategory>
 
