@@ -24,7 +24,7 @@
     <LinearLayout
         android:id="@+id/first_row"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="60sp"
+        android:layout_marginTop="40sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -258,13 +258,24 @@
 
     <TextView
         android:id="@+id/time"
-        app:layout_constraintBottom_toTopOf="@id/bottom_bar"
+        app:layout_constraintBottom_toTopOf="@id/obs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginBottom="20sp"
         android:text="-"
         android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/obs"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="20sp"
+        android:textColor="@color/red"
+        android:text="OBS: You should should be connected to TN VPN or EDUROAM."
+        android:textSize="12dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_bar"

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -19,14 +20,12 @@
             android:name=".setting.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
-        <activity
-            android:name=".SettingActivity"
-            android:exported="false" />
 
         <service
-            android:name=".MainService"
+            android:name=".notification.NotificationService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:permission="android.permission.POST_NOTIFICATIONS" />
 
         <activity
             android:name=".MainActivity"
