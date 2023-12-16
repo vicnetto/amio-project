@@ -1,7 +1,9 @@
 package xyz.vicnetto.amio_project;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,16 +17,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xyz.vicnetto.amio_project.mail.JavaMailAPI;
+import xyz.vicnetto.amio_project.mail.MailService;
 import xyz.vicnetto.amio_project.sensor.SensorRequest;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import xyz.vicnetto.amio_project.notification.NotificationService;
 import xyz.vicnetto.amio_project.setting.SettingsActivity;
+import xyz.vicnetto.amio_project.setting.SettingsFragment;
 import xyz.vicnetto.amio_project.ui.MainView;
 import xyz.vicnetto.amio_project.ui.SensorView;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,27 +39,24 @@ public class MainActivity extends AppCompatActivity {
         // Load all elements from the UI.
         loadViewElements();
 
+        // Load setting Fragment
+
+
         // Associate button with sensor update.
         MainView.getInstance().configureUpdateButton();
 
         // Associate button with setting activity.
         associateConfigurationButton();
 
-
-        // Load main service
-        //Intent mainService = new Intent(this, MainService.class);
-        //startService(mainService);
-
-
-        // Send mail service
-        sendMail("armand.bouveron@telecomnancy.net");
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkNotificationPermissions();
         }
-
         Intent intent = new Intent(this, NotificationService.class);
         super.startService(intent);
+
+        Intent mailService = new Intent(this, MailService.class);
+        startService(mailService);
+
     }
 
     /**
@@ -107,16 +109,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * This function allow us to send a mail with two given address TODO: compete this function and associate with a button
-     * @param addrDst the e-mail address that we want to send to
-     */
-    private void sendMail(String addrDst){
-
-        JavaMailAPI javaMailAPI = new JavaMailAPI(this, addrDst , "test", "testttttttt");
-
-        javaMailAPI.execute();
-        Log.d("mail2","send mail....2");
-
-    }
 }

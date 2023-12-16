@@ -10,10 +10,15 @@ import xyz.vicnetto.amio_project.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private SettingsFragment settingsFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        // load the first fragment new settingsFragment before
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -24,6 +29,8 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+
 
     }
 

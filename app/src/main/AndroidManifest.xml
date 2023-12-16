@@ -26,6 +26,10 @@
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.POST_NOTIFICATIONS" />
+        <service
+            android:name=".mail.MailService"
+            android:enabled="true"
+            android:exported="true" />
 
         <activity
             android:name=".MainActivity"

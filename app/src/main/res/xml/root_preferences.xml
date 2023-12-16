@@ -4,6 +4,7 @@
 
         <EditTextPreference
             app:key="addressMail"
+            app:defaultValue="wenjia.tang@telecomnancy.net"
             app:title="Adresse e-mail du destinataire"
             app:useSimpleSummaryProvider="true" />
 
@@ -12,7 +13,7 @@
     <PreferenceCategory app:title="Plages horaires dans la semaine">
 
         <ListPreference
-            app:defaultValue="19h"
+            app:defaultValue="19"
             app:entries="@array/start_time"
             app:entryValues="@array/start_time_value"
             app:key="start_time_s"
@@ -20,7 +21,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="23h"
+            app:defaultValue="23"
             app:entries="@array/end_time"
             app:entryValues="@array/end_time_value"
             app:key="end_time_s"
@@ -32,7 +33,7 @@
     <PreferenceCategory app:title="Plages horaires en weekend">
 
         <ListPreference
-            app:defaultValue="19h"
+            app:defaultValue="19"
             app:entries="@array/start_time"
             app:entryValues="@array/start_time_value"
             app:key="start_time_w"
@@ -40,7 +41,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="23h"
+            app:defaultValue="23"
             app:entries="@array/end_time"
             app:entryValues="@array/end_time_value"
             app:key="end_time_w"
@@ -52,6 +53,7 @@
 
         <EditTextPreference
             app:key="message"
+            app:defaultValue="Attention, une nouvelle lumière allumée!"
             app:title="Message à envoyer"
             app:useSimpleSummaryProvider="true" />
 
