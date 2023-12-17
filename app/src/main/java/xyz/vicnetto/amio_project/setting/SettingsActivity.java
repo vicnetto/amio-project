@@ -1,6 +1,7 @@
 package xyz.vicnetto.amio_project.setting;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,8 +32,19 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
-
     }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Handle the click on the "Up" button here
+                onBackPressed(); // This can be used to simulate the behavior of the physical back button
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 
 }

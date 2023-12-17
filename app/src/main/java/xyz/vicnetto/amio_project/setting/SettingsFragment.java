@@ -3,28 +3,46 @@ package xyz.vicnetto.amio_project.setting;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 
 import xyz.vicnetto.amio_project.R;
 
-public class SettingsFragment extends PreferenceFragmentCompat {
+public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener{
 
 
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
-
+        // Set up a listener for preference changes
+        SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        // React to changes in preferences
+        // broadcast to mail service TODO
+    }
+
 
     public void storePreference(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("addressMail", getMailAddressDst());
+        Log.i("fragment_sw", getStartTimeWeekend());
         editor.putString("message", getMailMessage());
-        editor.commit();
+        editor.putString("start_time_s", getStartTimeWorkdays());
+        editor.putString("end_time_s", getEndTimeWorkdays());
+        editor.putString("start_time_w", getStartTimeWeekend());
+        editor.putString("end_time_w", getEndTimeWeekend());
+
+        editor.apply();
 
     }
 
@@ -39,36 +57,32 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         return mailMessage;
     }
 
-    public int getStartTimeWorkdays(){
-        String startTimeS = this.getSetting("start_time_s","19");
-        return Integer.parseInt(startTimeS);
+    public String getStartTimeWorkdays(){
+        String startTimeS = this.getSetting("start_time_s","23");
+        return startTimeS;
     }
 
-    public int getEndTimeWorkdays(){
-        String endTimeS = this.getSetting("end_time_s","23");
-        return Integer.parseInt(endTimeS);
+    public String getEndTimeWorkdays(){
+        String endTimeS = this.getSetting("end_time_s","6");
+        return endTimeS;
     }
 
-    public int getStartTimeWeekend(){
+    public String getStartTimeWeekend(){
         String startTimeW = this.getSetting("start_time_w","19");
-        return Integer.parseInt(startTimeW);
+        return startTimeW;
 
     }
 
-    public int getEndTimeWeekend(){
-        String endTimeW = this.getSetting("end_time_w","19");
-        return Integer.parseInt(endTimeW);
+    public String getEndTimeWeekend(){
+        String endTimeW = this.getSetting("end_time_w","23");
+        return endTimeW;
     }
 
     private  String getSetting(String key, String dfValue){
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String value = sharedPreferences.getString(key, dfValue);
+        String value = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(key, dfValue);
         return value;
 
     }
-
-
-
 
 
 

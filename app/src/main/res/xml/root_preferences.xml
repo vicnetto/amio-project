@@ -13,7 +13,7 @@
     <PreferenceCategory app:title="Plages horaires dans la semaine">
 
         <ListPreference
-            app:defaultValue="19"
+            app:defaultValue="23"
             app:entries="@array/start_time"
             app:entryValues="@array/start_time_value"
             app:key="start_time_s"
@@ -21,7 +21,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="23"
+            app:defaultValue="6"
             app:entries="@array/end_time"
             app:entryValues="@array/end_time_value"
             app:key="end_time_s"
