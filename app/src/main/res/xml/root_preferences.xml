@@ -50,16 +50,17 @@
 
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/messages_header">
-
         <EditTextPreference
             app:key="message"
             app:defaultValue="Attention, une nouvelle lumière allumée!"
             app:title="Message à envoyer"
             app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 
-
-
-
+    <PreferenceCategory app:title="Boot">
+        <SwitchPreferenceCompat
+            app:key="startup"
+            app:title="Startup on boot"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

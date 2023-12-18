@@ -34,13 +34,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void storePreference(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("addressMail", getMailAddressDst());
         Log.i("fragment_sw", getStartTimeWeekend());
+        editor.putString("addressMail", getMailAddressDst());
         editor.putString("message", getMailMessage());
         editor.putString("start_time_s", getStartTimeWorkdays());
         editor.putString("end_time_s", getEndTimeWorkdays());
         editor.putString("start_time_w", getStartTimeWeekend());
         editor.putString("end_time_w", getEndTimeWeekend());
+        editor.putBoolean("startup", getStartupOnBoot());
 
         editor.apply();
 
@@ -78,9 +79,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         return endTimeW;
     }
 
+    public Boolean getStartupOnBoot(){
+        return this.getBoolean("startup",false);
+    }
+
     private  String getSetting(String key, String dfValue){
         String value = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(key, dfValue);
         return value;
+    }
+
+    private Boolean getBoolean(String key, Boolean dfValue) {
+        return PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean(key, dfValue);
 
     }
 
