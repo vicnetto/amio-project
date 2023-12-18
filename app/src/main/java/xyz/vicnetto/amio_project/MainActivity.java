@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
             // Random number, just to verify if the result was good.
-            int requestCode = 1;
             boolean isPostPermitted = ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.POST_NOTIFICATIONS);
 
