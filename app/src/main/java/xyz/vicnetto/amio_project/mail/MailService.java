@@ -126,7 +126,7 @@ public class MailService extends Service{
         }
     }
 
-    private boolean checkTime(int startTime, int endTime) {
+    public static boolean checkTime(int startTime, int endTime) {
         if (endTime > startTime) {
             return LocalTime.now().isAfter(LocalTime.of(startTime, 0)) &&
                     LocalTime.now().isBefore(LocalTime.of(startTime, 0));

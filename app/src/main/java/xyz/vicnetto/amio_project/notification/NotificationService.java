@@ -6,18 +6,20 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.preference.PreferenceManager;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +31,15 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import xyz.vicnetto.amio_project.GlobalConstant;
 import xyz.vicnetto.amio_project.R;
+import xyz.vicnetto.amio_project.mail.MailService;
 import xyz.vicnetto.amio_project.sensor.SensorDataHolder;
 import xyz.vicnetto.amio_project.sensor.SensorRequest;
-import xyz.vicnetto.amio_project.ui.MainView;
 
 public class NotificationService extends Service {
 
     int notification_id = 1;
+
+    Pair<Integer, Integer> notificationTime = new Pair<>(19, 23);
 
     private final Timer timer = new Timer(true);
 
@@ -48,6 +52,13 @@ public class NotificationService extends Service {
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // We want this service to continue running until it is explicitly
+        // stopped, so return sticky.
+        return START_STICKY;
+    }
+
+    @Override
     public void onCreate() {
         // Create the used notification channel.
         createNotificationChannel();
@@ -56,8 +67,10 @@ public class NotificationService extends Service {
         TimerTask task = new TimerTask() {
             public void run() {
                 handler.post(() -> {
-                    if (LocalTime.now().isAfter(LocalTime.of(19, 0)) &&
-                            LocalTime.now().isBefore(LocalTime.of(23, 0))) {
+                    updateNotificationTime();
+                    // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(NotificationService.this);
+
+                    if (MailService.checkTime(notificationTime.first, notificationTime.second)) {
                         if (SensorDataHolder.getInstance().data != null) {
                             verifyIfAnySensorChangedState();
                         }
@@ -65,7 +78,7 @@ public class NotificationService extends Service {
                 });
             }
         };
-        timer.schedule(task, 0, GlobalConstant.SENSOR_UPDATE_INTERVAL_IN_MINUTES * 60 * 1000);
+        timer.schedule(task, 0, 5 * 1000);
     }
 
     /**
@@ -113,8 +126,8 @@ public class NotificationService extends Service {
     /**
      * Send a notification to the android phone.
      *
-     * @param id -> Id of the notification, should be unique.
-     * @param title -> Title of the notification.
+     * @param id          -> Id of the notification, should be unique.
+     * @param title       -> Title of the notification.
      * @param description -> Description of the notification.
      */
     private void sendNotification(int id, String title, String description) {
@@ -152,5 +165,14 @@ public class NotificationService extends Service {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private void updateNotificationTime() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Integer start = Integer.parseInt(preferences.getString("start_time_s", "19"));
+        Integer end = Integer.parseInt(preferences.getString("end_time_s", "23"));
+
+        notificationTime = new Pair<>(start, end);
     }
 }

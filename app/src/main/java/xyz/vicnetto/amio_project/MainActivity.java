@@ -1,30 +1,27 @@
 package xyz.vicnetto.amio_project;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.vicnetto.amio_project.mail.JavaMailAPI;
+import xyz.vicnetto.amio_project.broadcast.BroadcastReceiver;
 import xyz.vicnetto.amio_project.mail.MailService;
-import xyz.vicnetto.amio_project.sensor.SensorRequest;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import xyz.vicnetto.amio_project.notification.NotificationService;
 import xyz.vicnetto.amio_project.setting.SettingsActivity;
-import xyz.vicnetto.amio_project.setting.SettingsFragment;
 import xyz.vicnetto.amio_project.ui.MainView;
 import xyz.vicnetto.amio_project.ui.SensorView;
 
@@ -57,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         Intent mailService = new Intent(this, MailService.class);
         startService(mailService);
 
+        BroadcastReceiver broadcast = new BroadcastReceiver();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
+        int receiverFlags = ContextCompat.RECEIVER_EXPORTED;
+        ContextCompat.registerReceiver(this, broadcast, filter, receiverFlags);
     }
 
     /**
@@ -85,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
             // Random number, just to verify if the result was good.
-            int requestCode = 1;
             boolean isPostPermitted = ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.POST_NOTIFICATIONS);
 
