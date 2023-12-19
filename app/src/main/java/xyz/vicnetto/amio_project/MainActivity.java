@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         // Load all elements from the UI.
         loadViewElements();
 
-        // Load setting Fragment
-
 
         // Associate button with sensor update.
         MainView.getInstance().configureUpdateButton();

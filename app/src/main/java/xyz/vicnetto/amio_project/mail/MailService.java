@@ -93,7 +93,7 @@ public class MailService extends Service{
 
 
     /**
-     * This function allow us to send a mail with two given address TODO: compete this function and associate with a button
+     * This function allow us to send a mail
      */
     public void sendMail(){
 
@@ -112,7 +112,7 @@ public class MailService extends Service{
 
     /**
      * To check if today is a workday
-     * @return
+     * @return true if today is a workday, false if we are on the weekend
      */
     private boolean checkDay(){
         LocalDate currentDate = LocalDate.now();
@@ -126,6 +126,12 @@ public class MailService extends Service{
         }
     }
 
+    /**
+     * To verify if the current time is the moment to send the mail
+     * @param startTime the start time of our period to verify the status of light
+     * @param endTime the end time of our period to verify the status of light
+     * @return true if we are at the moment to verify our light's status, false if we are not
+     */
     public static boolean checkTime(int startTime, int endTime) {
         if (endTime > startTime) {
             return LocalTime.now().isAfter(LocalTime.of(startTime, 0)) &&
@@ -135,6 +141,10 @@ public class MailService extends Service{
                     LocalTime.now().isBefore(LocalTime.of(endTime, 0));
         }
     }
+
+    /**
+     * To update the different value of setting from our sharedPreferences
+     */
 
     private void updateSetting() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

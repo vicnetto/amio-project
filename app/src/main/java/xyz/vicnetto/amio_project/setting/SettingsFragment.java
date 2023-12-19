@@ -24,17 +24,27 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
+    /**
+     * Each time we change the preferences, we will store them in the sharedpreferences
+     * @param sharedPreferences The {@link SharedPreferences} that received the change.
+     * @param key The key of the preference that was changed, added, or removed. Apps targeting
+     *            {@link android.os.Build.VERSION_CODES#R} on devices running OS versions
+     *            {@link android.os.Build.VERSION_CODES#R Android R} or later, will receive
+     *            a {@code null} value when preferences are cleared.
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        // React to changes in preferences
-        // broadcast to mail service TODO
+        storePreference();
     }
 
 
+    /**
+     * To store the preferences in our sharedpreferences
+     */
     public void storePreference(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = preferences.edit();
-        Log.i("fragment_sw", getStartTimeWeekend());
+
         editor.putString("addressMail", getMailAddressDst());
         editor.putString("message", getMailMessage());
         editor.putString("start_time_s", getStartTimeWorkdays());
