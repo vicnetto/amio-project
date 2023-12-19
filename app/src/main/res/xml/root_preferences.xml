@@ -1,23 +1,23 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Envoie du mail">
+    <PreferenceCategory app:title="Send mails">
 
         <EditTextPreference
             app:key="addressMail"
             app:defaultValue="wenjia.tang@telecomnancy.net"
-            app:title="Adresse e-mail du destinataire"
+            app:title="Recipient's e-mail address"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Plages horaires dans la semaine">
+    <PreferenceCategory app:title="Time slots during the week">
 
         <ListPreference
             app:defaultValue="23"
             app:entries="@array/start_time"
             app:entryValues="@array/start_time_value"
             app:key="start_time_s"
-            app:title="Début"
+            app:title="Start"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -25,19 +25,19 @@
             app:entries="@array/end_time"
             app:entryValues="@array/end_time_value"
             app:key="end_time_s"
-            app:title="Fin"
+            app:title="end"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Plages horaires en weekend">
+    <PreferenceCategory app:title="Time slots during the weekend">
 
         <ListPreference
             app:defaultValue="19"
             app:entries="@array/start_time"
             app:entryValues="@array/start_time_value"
             app:key="start_time_w"
-            app:title="Début"
+            app:title="Start"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -45,7 +45,7 @@
             app:entries="@array/end_time"
             app:entryValues="@array/end_time_value"
             app:key="end_time_w"
-            app:title="Fin"
+            app:title="End"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
@@ -53,7 +53,7 @@
         <EditTextPreference
             app:key="message"
             app:defaultValue="Attention, une nouvelle lumière allumée!"
-            app:title="Message à envoyer"
+            app:title="Message to send"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
