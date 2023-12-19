@@ -140,7 +140,7 @@ public class MailService extends Service{
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         this.addrDst = preferences.getString("addressMail", "wenjia.tang@telecomnancy.net");
         this.message = preferences.getString("message", "Attention, une nouvelle lumière allumée!");
-        this.startTimeS = Integer.parseInt(preferences.getString("start_time_s","19h")) ;
+        this.startTimeS = Integer.parseInt(preferences.getString("start_time_s","19")) ;
         this.endTimeS = Integer.parseInt(preferences.getString("end_time_s","23"));
         this.startTimeW = Integer.parseInt(preferences.getString("start_time_w","23"));
         this.endTimeW = Integer.parseInt(preferences.getString("end_time_w","6"));
