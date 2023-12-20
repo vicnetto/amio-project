@@ -54,4 +54,9 @@ Pour continuer à recevoir les notifications et ne pas manquer les dernières in
 <img src="/img/boot.jpg" alt="boot" width="300"/>
 </p>
 
+## Difficultés
+
+- L'initialisation de l'application immédiatement après le démarrage a requis l'obtention de plusieurs permissions. La compréhension de ce processus était un peu complexe, mais la documentation Android a considérablement facilité la tâche.
+- La gestion du partage de données entre les classes a également constitué un défi de taille. Pour résoudre cette problématique, nous avons choisi d’utiliser deux singletons.
+
 
