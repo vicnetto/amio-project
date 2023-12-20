@@ -10,7 +10,7 @@ L'objectif de ce mini-projet est de faire une application Android exploitant des
 
 Nous avons développé les fonctionnalités suivantes au sein de notre application :
 
-- **Requettes auprès du service de réseau de capteurs à TELECOM Nancy**
+- **Requettes auprès du service de réseau de capteurs de TELECOM Nancy**
 - **Envoi d'e-mails**
 - **Notification automatique**
 - **Configuration des paramètres**
