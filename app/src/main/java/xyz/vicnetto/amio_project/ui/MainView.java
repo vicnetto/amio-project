@@ -17,7 +17,7 @@ import xyz.vicnetto.amio_project.sensor.SensorRequest;
 public class MainView {
 
 
-    private List<SensorView> sensorView;
+    private List<SensorView> sensorView = null;
 
     private TextView time;
 
@@ -53,11 +53,11 @@ public class MainView {
     /**
      * Update the UI according to data.
      *
-     * @param SensorDataHolder -> JSON returned from the request.
+     * @param sensorDataHolder -> JSON returned from the request.
      */
-    public void updateViewAccordingToData(SensorDataHolder SensorDataHolder) {
-        for (int i = 0; i < GlobalConstant.QUANTITY_OF_SENSORS; i++) {
-            xyz.vicnetto.amio_project.sensor.SensorDataHolder.SensorInformation currentSensorInformation = SensorDataHolder.data.get(i);
+    public void updateViewAccordingToData(SensorDataHolder sensorDataHolder) {
+        for (int i = 0; i < sensorDataHolder.data.size(); i++) {
+            xyz.vicnetto.amio_project.sensor.SensorDataHolder.SensorInformation currentSensorInformation = sensorDataHolder.data.get(i);
             SensorView currentSensorView = sensorView.get(i);
 
             // Update the name of the sensor.
@@ -80,6 +80,10 @@ public class MainView {
 
     public void setSensorShow(List<SensorView> sensorView) {
         this.sensorView = sensorView;
+    }
+
+    public List<SensorView> getSensorView() {
+        return sensorView;
     }
 
     public void setTime(TextView time) {

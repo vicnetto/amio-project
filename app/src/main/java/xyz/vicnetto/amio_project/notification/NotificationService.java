@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ServiceInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceManager;
@@ -58,6 +60,7 @@ public class NotificationService extends Service {
         return START_STICKY;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     @Override
     public void onCreate() {
         // Create the used notification channel.
@@ -69,16 +72,28 @@ public class NotificationService extends Service {
                 handler.post(() -> {
                     updateNotificationTime();
                     // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(NotificationService.this);
-
-                    if (MailService.checkTime(notificationTime.first, notificationTime.second)) {
-                        if (SensorDataHolder.getInstance().data != null) {
-                            verifyIfAnySensorChangedState();
-                        }
-                    }
+                    verifyIfAnySensorChangedState();
                 });
             }
         };
-        timer.schedule(task, 0, 5 * 1000);
+        timer.schedule(task, 0, 10 * 1000);
+
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
+
+        if (preferences.getBoolean("startup", false)) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, GlobalConstant.NOTIFICATION_CHANNEL_NAME)
+                    .setContentTitle("Application running on background!")
+                    .setContentText("You can clear this notification.")
+                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(1, builder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_SHORT_SERVICE);
+            } else
+                startForeground(1, builder.build());
+        }
     }
 
     /**
@@ -98,25 +113,34 @@ public class NotificationService extends Service {
                 List<Boolean> oldSensorState = new ArrayList<>();
 
                 // Add true if sensor is on, false otherwise.
-                for (int i = 0; i < GlobalConstant.QUANTITY_OF_SENSORS; i++) {
-                    float oldSensorValue = SensorDataHolder.getInstance().data.get(i).value;
+                if (SensorDataHolder.getInstance().data != null) {
+                    for (int i = 0; i < SensorDataHolder.getInstance().data.size(); i++) {
+                        float oldSensorValue = SensorDataHolder.getInstance().data.get(i).value;
 
-                    oldSensorState.add(oldSensorValue >= GlobalConstant.SENSOR_THRESHOLD);
+                        oldSensorState.add(oldSensorValue >= GlobalConstant.SENSOR_THRESHOLD);
+                    }
                 }
 
                 // Treat the new response and save it.
                 SensorRequest.treatJSONResponseAndUpdateUI(response);
 
-                // Verify if all the sensors that were off are still off.
-                for (int i = 0; i < GlobalConstant.QUANTITY_OF_SENSORS; i++) {
-                    SensorDataHolder.SensorInformation currentNewSensor =
-                            SensorDataHolder.getInstance().data.get(i);
+                // Verify time.
+                if (MailService.checkTime(notificationTime.first, notificationTime.second)) {
+                    if (SensorDataHolder.getInstance().data != null) {
+                        // Verify if all the sensors that were off are still off.
+                        for (int i = 0; i < SensorDataHolder.getInstance().data.size(); i++) {
+                            SensorDataHolder.SensorInformation currentNewSensor =
+                                    SensorDataHolder.getInstance().data.get(i);
 
-                    // In case the sensor is now on, should send a notification.
-                    if (!oldSensorState.get(i) && currentNewSensor.value >= GlobalConstant.SENSOR_THRESHOLD) {
-                        String title = currentNewSensor.mote + " is now on!";
-                        String description = "The new value is " + currentNewSensor.value;
-                        sendNotification(notification_id++, title, description);
+                            // In case the sensor is now on, should send a notification.
+                            if (oldSensorState.size() != 0) {
+                                if (!oldSensorState.get(i) && currentNewSensor.value >= GlobalConstant.SENSOR_THRESHOLD) {
+                                    String title = currentNewSensor.mote + " is now on!";
+                                    String description = "The new value is " + currentNewSensor.value;
+                                    sendNotification(notification_id++, title, description);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -131,16 +155,16 @@ public class NotificationService extends Service {
      * @param description -> Description of the notification.
      */
     private void sendNotification(int id, String title, String description) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, GlobalConstant.NOTIFICATION_CHANNEL_NAME)
-                .setContentTitle(title)
-                .setContentText(description)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
         // In case use has done the rights to send notifications, it will send.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                 == PackageManager.PERMISSION_GRANTED) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, GlobalConstant.NOTIFICATION_CHANNEL_NAME)
+                    .setContentTitle(title)
+                    .setContentText(description)
+                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
             notificationManager.notify(id, builder.build());

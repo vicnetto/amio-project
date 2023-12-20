@@ -6,8 +6,6 @@ public abstract class GlobalConstant {
 
     public static final String NOTIFICATION_CHANNEL_NAME = "Sensor";
 
-    public static final int QUANTITY_OF_SENSORS = 4;
-
     public static final int SENSOR_THRESHOLD = 250;
 
     public static final int BUTTON_DEACTIVATION_TIME_IN_SECONDS = 5;

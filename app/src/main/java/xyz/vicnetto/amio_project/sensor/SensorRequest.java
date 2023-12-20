@@ -13,6 +13,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import xyz.vicnetto.amio_project.GlobalConstant;
 import xyz.vicnetto.amio_project.ui.MainView;
+import xyz.vicnetto.amio_project.ui.SensorView;
 
 public class SensorRequest {
 
@@ -67,6 +68,8 @@ public class SensorRequest {
         SensorDataHolder.updateSingleton(sensorDataHolder);
 
         // After converting from JSON to a class, now the UI can be updated.
-        MainView.getInstance().updateViewAccordingToData(sensorDataHolder);
+        if (MainView.getInstance().getSensorView() != null) {
+            MainView.getInstance().updateViewAccordingToData(sensorDataHolder);
+        }
     }
 }
