@@ -1,21 +1,33 @@
 # Projet Amio
 
-## Équipe 
-Ce projet est réalisé par [Victor de Moura Netto](https://github.com/vicnetto) et [Wenjia Tang](https://github.com/sans-sucre)
+L'objectif de ce mini-projet est de faire une application Android exploitant des données issues d'un réseau de capteurs et exposées à travers un web service (IoTLab de TELECOM Nancy).
+
+![Application](/img/home.jpg)
 
 ## Fonctionnalités implémentées
 
 Nous avons développé les fonctionnalités suivantes au sein de notre application :
 
+- **Requettes auprès du service de réseau de capteurs à TELECOM Nancy**
 - **Envoi d'e-mails**
 - **Notification automatique**
 - **Configuration des paramètres**
-- ...
+  - Réglage de l'heure de réception des courriels/notifications.
+  - Configuration du courrier électronique.
+  - Activation automatique au démarrage du portable.
 
-### Envoi d'e-mails
+## Requettes HTTP
+Pour obtenir des informations sur les capteurs, une requête HTTP est effectuée sur le site `http://iotlab.telecomnancy.eu:8080/iotlab/rest/data/1/light1/last`. La réponse est un format JSON, qui est converti en singleton pour une facilité d'accès aux données.
+
+## Notifications
+Les notifications permettent d'informer l'utilisateur si un capteur commence à détecter la présence de lumière. Ces notifications sont générées à partir de l'heure définie dans la page de configuration.
+
+![Sensor](/img/sensor-on.jpg)
+
+## Envoi d'e-mails
 En cas de détection d'une situation anormale liée à l'éclairage pendant les plages horaires définies, notre application utilise l'API Gmail pour envoyer automatiquement un e-mail depuis l'adresse : amioinfotn@gmail.com.
 
-### Configuration
+## Configuration
 Notre application offre la possibilité de personnaliser les paramètres suivants :
 
 - Adresse e-mail du destinataire
@@ -24,4 +36,12 @@ Notre application offre la possibilité de personnaliser les paramètres suivant
 - Contenu de l'e-mail à envoyer
 - Démarrage automatique de l'application au démarrage de l'appareil (boot)
 
-    ![Configuration](/img/image_config.png)
+![Configuration](/img/image_config.png)
+
+## Boot
+Pour continuer à recevoir les notifications et ne pas manquer les dernières informations sur les capteurs, l'option "startup on boot" peut être activée. Cette option permet à l'application de s'exécuter en arrière-plan dès le démarrage du téléphone.
+
+![Boot](/img/boot.jpg)
+
+## Équipe 
+Ce projet est réalisé par [Victor de Moura Netto](https://github.com/vicnetto) et [Wenjia Tang](https://github.com/sans-sucre)
