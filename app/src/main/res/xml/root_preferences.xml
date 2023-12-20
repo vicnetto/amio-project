@@ -4,7 +4,7 @@
 
         <EditTextPreference
             app:key="addressMail"
-            app:defaultValue="wenjia.tang@telecomnancy.net"
+            app:defaultValue="anonime@telecomnancy.net"
             app:title="Recipient's e-mail address"
             app:useSimpleSummaryProvider="true" />
 
@@ -25,7 +25,7 @@
             app:entries="@array/end_time"
             app:entryValues="@array/end_time_value"
             app:key="end_time_s"
-            app:title="end"
+            app:title="End"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
