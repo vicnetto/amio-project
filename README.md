@@ -6,6 +6,9 @@ L'objectif de ce mini-projet est de faire une application Android exploitant des
 <img src="/img/home.jpg" alt="application" width="300"/>
 </p>
 
+## Équipe 
+Ce projet est réalisé par [Victor de Moura Netto](https://github.com/vicnetto) et [Wenjia Tang](https://github.com/sans-sucre)
+
 ## Fonctionnalités implémentées
 
 Nous avons développé les fonctionnalités suivantes au sein de notre application :
@@ -15,11 +18,11 @@ Nous avons développé les fonctionnalités suivantes au sein de notre applicati
 - **Notification automatique**
 - **Configuration des paramètres**
   - Réglage de l'heure de réception des courriels/notifications.
-  - Configuration du courrier électronique.
+  - Configuration du courrier électronique (contenu à envoyer, plages horaires et adresse du destinataire).
   - Activation automatique au démarrage du portable.
 
 ## Requettes HTTP
-Pour obtenir des informations sur les capteurs, une requête HTTP est effectuée sur le site `http://iotlab.telecomnancy.eu:8080/iotlab/rest/data/1/light1/last`. La réponse est un format JSON, qui est converti en singleton pour une facilité d'accès aux données.
+Pour obtenir des informations sur les capteurs, une requête HTTP est effectuée sur l'API `http://iotlab.telecomnancy.eu:8080/iotlab/rest/data/1/light1/last`. La réponse est au format JSON, qui est converti en singleton pour faciliter l'accès aux données.
 
 ## Notifications
 Les notifications permettent d'informer l'utilisateur si un capteur commence à détecter la présence de lumière. Ces notifications sont générées à partir de l'heure définie dans la page de configuration.
@@ -29,14 +32,14 @@ Les notifications permettent d'informer l'utilisateur si un capteur commence à 
 </p>
 
 ## Envoi d'e-mails
-En cas de détection d'une situation anormale liée à l'éclairage pendant les plages horaires définies, notre application utilise l'API Gmail pour envoyer automatiquement un e-mail depuis l'adresse : amioinfotn@gmail.com.
+En cas de détection d'une situation anormale liée à l'éclairage pendant les plages horaires définies, notre application utilise l'API Gmail pour envoyer automatiquement un e-mail depuis l'adresse amioinfotn@gmail.com.
 
 ## Configuration
 Notre application offre la possibilité de personnaliser les paramètres suivants :
 
 - Adresse e-mail du destinataire
-- Plages horaires en semaine (debut + fin)
-- Plages horaires le week-end (début + fin)
+- Plages horaires en semaine (debut et fin)
+- Plages horaires le week-end (début et fin)
 - Contenu de l'e-mail à envoyer
 - Démarrage automatique de l'application au démarrage de l'appareil (boot)
 
@@ -51,5 +54,4 @@ Pour continuer à recevoir les notifications et ne pas manquer les dernières in
 <img src="/img/boot.jpg" alt="boot" width="300"/>
 </p>
 
-## Équipe 
-Ce projet est réalisé par [Victor de Moura Netto](https://github.com/vicnetto) et [Wenjia Tang](https://github.com/sans-sucre)
+
